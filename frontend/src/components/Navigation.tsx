@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ThemeToggleSimple } from './ThemeToggle';
 import {
   Home,
   Bot,
@@ -31,7 +32,7 @@ export function Navigation() {
   const enabledNavigation = navigationItems.filter(item => item.config.enabled);
 
   return (
-    <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
+    <header className="border-b border-slate-700 dark:border-slate-600 bg-slate-900/50 dark:bg-slate-800/50 light:bg-slate-50/90 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -59,7 +60,7 @@ export function Navigation() {
                     'flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors',
                     isActive
                       ? 'bg-blue-500/20 text-blue-400'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-700'
+                      : 'text-slate-300 dark:text-slate-300 light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-200'
                   )}
                 >
                   <Icon className="w-4 h-4" />
@@ -69,8 +70,11 @@ export function Navigation() {
             })}
           </nav>
 
-          {/* Wallet Connect */}
-          <ConnectButton />
+          {/* Right side - Theme toggle and Connect button */}
+          <div className="flex items-center space-x-4">
+            <ThemeToggleSimple />
+            <ConnectButton />
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -88,7 +92,7 @@ export function Navigation() {
                     'flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors',
                     isActive
                       ? 'bg-blue-500/20 text-blue-400'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-700'
+                      : 'text-slate-300 dark:text-slate-300 light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-200'
                   )}
                 >
                   <Icon className="w-4 h-4" />

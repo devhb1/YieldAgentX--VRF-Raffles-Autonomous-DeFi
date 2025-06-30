@@ -41,50 +41,16 @@ export default function ActivityPage() {
         return;
       }
 
-      // Import contractService dynamically to avoid SSR issues
-      const { contractService } = await import('@/lib/contractService');
-
-      // Get user's agents first
-      const userAgents = await contractService.getUserAIPortfolioAgents(address);
-
-      // Collect all activities from all user agents
-      const allActivities: ActivityItem[] = [];
-
-      for (const agent of userAgents) {
-        try {
-          // Get agent activities
-          const agentActivities = await contractService.getAIPortfolioAgentActivities(agent.id, 20);
-
-          // Convert to our activity format
-          const formattedActivities: ActivityItem[] = agentActivities.map((activity: any, index: number) => ({
-            id: `${agent.id}-${index}`,
-            type: getActivityType(activity.action),
-            timestamp: Number(activity.timestamp) * 1000, // Convert to milliseconds
-            amount: activity.amount,
-            token: 'ETH', // Default to ETH for now
-            agentId: agent.id.toString(),
-            agentName: agent.name,
-            chainId: chainId || 11155111,
-            description: getActivityDescription(activity),
-            txHash: undefined // Contract doesn't return tx hash in activities
-          }));
-
-          allActivities.push(...formattedActivities);
-        } catch (error) {
-          console.error(`Error fetching activities for agent ${agent.id}:`, error);
-        }
-      }
-
-      // Sort by timestamp (newest first)
-      allActivities.sort((a, b) => b.timestamp - a.timestamp);
-
-      setActivities(allActivities);
+      // For now, return empty activities since this page is for AI Portfolio features
+      // which are not part of the current raffle system implementation
+      setActivities([]);
+      
     } catch (error) {
       console.error('Error fetching activities:', error);
-      // Fallback to empty array instead of mock data
       setActivities([]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // Helper function to map contract action to activity type

@@ -7,10 +7,13 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useState, useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
-import { contractService } from '@/lib/contractService';
+import { contractService } from '@/lib/enhancedContractService';
 import { RaffleRound } from '@/lib/enhancedContractService';
 import { parseEther, formatEther } from 'viem';
 import { Ticket, Trophy, Clock, Users, DollarSign } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import PreviousRaffleWinner from '@/components/PreviousRaffleWinner';
+import MyWinnings from '@/components/MyWinnings';
 
 
 export default function RafflePage() {
@@ -20,8 +23,10 @@ export default function RafflePage() {
   const [ticketCount, setTicketCount] = useState(1);
   const [loading, setLoading] = useState(false);
   const [userTickets, setUserTickets] = useState(0);
-  const [participantCount, setParticipantCount] = useState(0);
+  const [uniqueParticipants, setUniqueParticipants] = useState<string[]>([]);
   const [totalTickets, setTotalTickets] = useState(0);
+  const [canDraw, setCanDraw] = useState(false);
+  const [autoDrawEnabled, setAutoDrawEnabled] = useState(true);
 
   const TICKET_PRICE = 0.001; // ETH (matches contract TICKET_PRICE)
 
@@ -34,22 +39,69 @@ export default function RafflePage() {
     }
   }, [chainId, address]);
 
+  // Auto-draw effect - check every 30 seconds if draw conditions are met
+  useEffect(() => {
+    if (!autoDrawEnabled || !raffleInfo?.isActive || !address) return;
+
+    const checkAutoDrawInterval = setInterval(async () => {
+      try {
+        const conditions = await contractService.getDrawingConditions();
+        setCanDraw(conditions.canDraw);
+        
+        if (conditions.canDraw && autoDrawEnabled) {
+          console.log('Auto-draw conditions met, triggering draw...');
+          await handleDrawWinner();
+          setAutoDrawEnabled(false); // Disable after triggering
+        }
+      } catch (error) {
+        console.error('Error checking auto-draw conditions:', error);
+      }
+    }, 30000); // Check every 30 seconds
+
+    return () => clearInterval(checkAutoDrawInterval);
+  }, [raffleInfo?.isActive, autoDrawEnabled, address]);
+
   const fetchRaffleInfo = async () => {
     try {
+      console.log('=== FETCHING RAFFLE INFO ===');
       const status = await contractService.getRaffleStatus();
-      setRaffleInfo({
+      console.log('Raffle status from contract:', status);
+      console.log('Status state type:', typeof status.state, 'Value:', status.state);
+      
+      // Handle both string and BigInt states from contract
+      const stateValue = typeof status.state === 'string' ? BigInt(status.state) : status.state;
+      const isActive = stateValue === BigInt(0); // 0 = OPEN state
+      const isDrawn = stateValue === BigInt(2); // 2 = CLOSED state
+      
+      console.log('Calculated isActive:', isActive, 'isDrawn:', isDrawn);
+      
+      const raffleData: RaffleRound = {
         id: status.roundId,
+        roundId: status.roundId,
         startTime: status.startTime,
-        endTime: BigInt(0),
-        ticketsSold: status.participantCount || BigInt(0),
+        endTime: status.endTime,
+        ticketsSold: status.participantCount,
+        participantCount: status.participantCount,
         prizePool: status.prizePool,
-        isActive: status.state === 0, // 0 = OPEN state
-        isDrawn: status.state === 2, // 2 = COMPLETED state
-        winner: '0x0000000000000000000000000000000000000000',
+        isActive: isActive,
+        isDrawn: isDrawn,
+        winner: status.winner,
         winningTicket: BigInt(0),
         randomness: BigInt(0),
-        prizeClaimed: false
-      });
+        prizeClaimed: false,
+        state: status.state,
+        vrfRequestId: status.vrfRequestId,
+        vrfTxHash: status.vrfTxHash
+      };
+      
+      console.log('Final raffle data:', raffleData);
+      setRaffleInfo(raffleData);
+      
+      // Check if draw is possible
+      if (raffleData.isActive) {
+        const conditions = await contractService.getDrawingConditions();
+        setCanDraw(conditions.canDraw);
+      }
     } catch (error) {
       console.error('Error fetching raffle info:', error);
     }
@@ -58,21 +110,20 @@ export default function RafflePage() {
   const fetchUserTickets = async () => {
     if (!address) return;
     try {
-      // Get current participants and check user's tickets
-      const participants = await contractService.getCurrentParticipants();
-      const userParticipant = participants.find((p: any) => p.participant.toLowerCase() === address.toLowerCase());
-      const userTicketCount = userParticipant ? Number(userParticipant.ticketCount) : 0;
-      
+      // Get user's actual ticket count from contract
+      const userTicketCount = await contractService.getUserTicketCount(address);
       setUserTickets(userTicketCount);
-      setParticipantCount(participants.length);
       
-      // Calculate total tickets
-      const total = participants.reduce((sum: number, p: any) => sum + Number(p.ticketCount), 0);
-      setTotalTickets(total);
+      // Get raffle status for unique participants
+      const status = await contractService.getRaffleStatus();
+      const participants = await contractService.getUniqueParticipants();
+      setUniqueParticipants(participants);
+      setTotalTickets(Number(status.participantCount)); // Each participant = 1 ticket for simplicity
+      
     } catch (error) {
       console.error('Error fetching user tickets:', error);
       setUserTickets(0);
-      setParticipantCount(0);
+      setUniqueParticipants([]);
       setTotalTickets(0);
     }
   };
@@ -83,13 +134,13 @@ export default function RafflePage() {
     setLoading(true);
     try {
       console.log('Attempting to buy tickets:', { ticketCount, address });
-      // Pass the address explicitly to ensure correct account is used
       const txHash = await contractService.purchaseRaffleTickets(ticketCount, address);
       console.log('Transaction hash:', txHash);
       
       // Wait for transaction confirmation
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       
+      // Refresh data
       await fetchRaffleInfo();
       await fetchUserTickets();
       
@@ -118,23 +169,70 @@ export default function RafflePage() {
     setLoading(false);
   };
 
+  const handleDrawWinner = async () => {
+    if (!address || !raffleInfo) return;
+
+    try {
+      console.log('Attempting to draw winner...');
+      const txHash = await contractService.drawRaffleWinner(address);
+      console.log('Draw winner transaction hash:', txHash);
+      
+      // Wait for transaction confirmation
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      // Refresh data
+      await fetchRaffleInfo();
+      await fetchUserTickets();
+      
+      console.log('Winner draw successful');
+    } catch (error: any) {
+      console.error('Error drawing winner:', error);
+      
+      let errorMessage = 'Failed to draw winner';
+      if (error?.message) {
+        if (error.message.includes('revert')) {
+          errorMessage = 'Draw conditions not met or already drawn';
+        } else if (error.message.includes('rejected')) {
+          errorMessage = 'Transaction was rejected by user';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
+      alert(errorMessage);
+    }
+  };
+
 
 
   const getTimeUntilDraw = () => {
     if (!raffleInfo) return null;
 
     const startTime = Number(raffleInfo.startTime) * 1000;
-    const tenMinutes = 10 * 60 * 1000; // Changed to 10 minutes (matches contract MIN_DURATION)
+    const tenMinutes = 10 * 60 * 1000; // 10 minutes in milliseconds
     const drawTime = startTime + tenMinutes;
     const now = Date.now();
 
-    if (now >= drawTime) return 'Draw conditions may be met!';
+    const participantCount = uniqueParticipants.length;
+    const hasMinParticipants = participantCount >= 2;
+
+    if (now >= drawTime && hasMinParticipants) {
+      return '✅ Ready to draw!';
+    }
+    
+    if (!hasMinParticipants) {
+      return `Need ${2 - participantCount} more participants`;
+    }
+
+    if (now >= drawTime) {
+      return '✅ Time requirement met!';
+    }
 
     const timeLeft = drawTime - now;
     const minutesLeft = Math.floor(timeLeft / (60 * 1000));
     const secondsLeft = Math.floor((timeLeft % (60 * 1000)) / 1000);
 
-    return `${minutesLeft}m ${secondsLeft}s`;
+    return `${minutesLeft}m ${secondsLeft}s remaining`;
   };
 
   if (chainId !== 11155111) {
@@ -204,7 +302,7 @@ export default function RafflePage() {
                       Total Tickets Bought
                     </span>
                     <span className="text-white font-semibold">
-                      {totalTickets}
+                      {Number(raffleInfo.ticketsSold)}
                     </span>
                   </div>
 
@@ -214,7 +312,7 @@ export default function RafflePage() {
                       Unique Players
                     </span>
                     <span className="text-white font-semibold">
-                      {participantCount}
+                      {uniqueParticipants.length}
                     </span>
                   </div>
 
@@ -224,10 +322,10 @@ export default function RafflePage() {
                       Your Winning Odds
                     </span>
                     <span className="text-white font-semibold">
-                      {totalTickets > 0 ?
-                        `${((userTickets / totalTickets) * 100).toFixed(2)}%` :
+                      {Number(raffleInfo.ticketsSold) > 0 ?
+                        `${((userTickets / Number(raffleInfo.ticketsSold)) * 100).toFixed(2)}%` :
                         '0%'
-                      } ({userTickets}/{totalTickets})
+                      } ({userTickets}/{Number(raffleInfo.ticketsSold)})
                     </span>
                   </div>
 
@@ -242,10 +340,35 @@ export default function RafflePage() {
                   </div>
 
                   {raffleInfo.isActive && (
-                    <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                      <p className="text-sm text-blue-400">
-                        Draw triggers automatically when there are 2+ unique participants and 10+ minutes have passed.
-                      </p>
+                    <div className="mt-4 space-y-3">
+                      <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-sm text-blue-400">
+                          Draw triggers automatically when there are 2+ unique participants and 10+ minutes have passed.
+                        </p>
+                      </div>
+                      
+                      {canDraw && (
+                        <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                          <p className="text-sm text-green-400 mb-2">
+                            🎉 Draw conditions are met! Winner can be drawn now.
+                          </p>
+                          <Button
+                            onClick={handleDrawWinner}
+                            disabled={loading}
+                            className="w-full bg-green-600 hover:bg-green-700"
+                            size="sm"
+                          >
+                            {loading ? 'Drawing...' : 'Draw Winner Now'}
+                          </Button>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-400">Auto-draw enabled:</span>
+                        <Badge className={autoDrawEnabled ? 'bg-green-500' : 'bg-gray-500'}>
+                          {autoDrawEnabled ? 'ON' : 'OFF'}
+                        </Badge>
+                      </div>
                     </div>
                   )}
                 </>
@@ -318,6 +441,21 @@ export default function RafflePage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Previous Raffle Winner */}
+        {/* Previous Raffles and My Winnings Tabs */}
+        <Tabs defaultValue="previous-raffles" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="previous-raffles">Previous Raffles</TabsTrigger>
+            <TabsTrigger value="my-winnings">My Winnings</TabsTrigger>
+          </TabsList>
+          <TabsContent value="previous-raffles">
+            <PreviousRaffleWinner />
+          </TabsContent>
+          <TabsContent value="my-winnings">
+            <MyWinnings />
+          </TabsContent>
+        </Tabs>
 
         {/* How it Works */}
         <Card className="mt-6 bg-slate-900 border-slate-700">

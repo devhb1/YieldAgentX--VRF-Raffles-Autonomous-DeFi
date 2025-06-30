@@ -48,7 +48,12 @@ export default function ChainlinkRaffleSimple() {
     setLoading(true);
     try {
       const status = await contractService.getRaffleStatus();
-      setRaffleStatus(status);
+      setRaffleStatus({
+        isOpen: status.state === BigInt(0), // 0 = OPEN state
+        prizePool: status.prizePool,
+        participantCount: status.participantCount, // Keep as bigint
+        lastWinner: '0x0000000000000000000000000000000000000000' // We don't get this from current call
+      });
     } catch (err) {
       console.error('Error loading raffle status:', err);
       // Use mock data for demo
@@ -70,7 +75,7 @@ export default function ChainlinkRaffleSimple() {
     setError(null);
 
     try {
-      await contractService.enterRaffle(address);
+      await contractService.purchaseRaffleTickets(1, address);
       setUserHasEntered(true);
       await loadRaffleStatus();
     } catch (err) {

@@ -6,14 +6,14 @@
   "blockNumber": 8658976,
   "contracts": {
     "enhancedAIPortfolioVault": "0x842eB9C7ce0a386f1b2FbD356FB6de47B85072cD",
-    "continuousChainlinkRaffle": "0x7A06d9146F1bE63170Ef4e6103aE02C5AF78c5E0",
+    "vrf25Raffle": "0x636530e7F11b091f176Ae807ca0c69483b6D9cfE",
     "automatedBuyingEngine": "0x139fdcc1f53818C9fDE368D90329701587038828"
   },
   "config": {
     "name": "sepolia",
     "vrfCoordinator": "0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625",
     "vrfKeyHash": "0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c",
-    "vrfSubscriptionId": 1,
+    "vrfSubscriptionId": "63638762572181911466406949252427640028961704213268465121364079606304171403540",
     "usdc": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
     "ethUsdFeed": "0x694AA1769357215DE4FAC081bf1f309aDC325306",
     "usdcUsdFeed": "0xA2F78ab2355fe2f984D808B5CeE7FD0A93D5270E",

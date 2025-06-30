@@ -11,5 +11,6 @@ interface PortfolioAgentDashboardProps {
 }
 
 export default function PortfolioAgentDashboard(props: PortfolioAgentDashboardProps) {
-  return <PortfolioAgentDashboardSimple {...props} />;
+  // Props ignored for simplified raffle-only system
+  return <PortfolioAgentDashboardSimple />;
 }

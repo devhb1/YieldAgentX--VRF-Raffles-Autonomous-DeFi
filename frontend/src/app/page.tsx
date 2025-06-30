@@ -187,9 +187,7 @@ export default function CleanDashboard() {
                     Create and manage AI agents that automatically optimize your DeFi yield across multiple protocols
                   </p>
                 </div>
-                <PortfolioAgentDashboard 
-                  onDataUpdate={handlePortfolioDataUpdate}
-                />
+                <PortfolioAgentDashboard />
               </TabsContent>
 
               <TabsContent value="raffle" className="p-6 pt-4">

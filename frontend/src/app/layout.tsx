@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Web3Provider } from "@/components/Web3Provider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import "./globals.css";
 
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DeFi Multi-Agent: Yield Optimizer with Raffle | Chainlink Hackathon",
+  title: "DeFi Multi-Agent: Yield Optimizer with Raffle ",
   description: "Maximize your DeFi yields while you sleep - AI agents that never rest. Built for Chainlink Hackathon with VRF raffle system.",
   keywords: ["DeFi", "Chainlink", "AI Agents", "Yield Farming", "VRF", "Raffle", "Hackathon", "Web3"],
   authors: [{ name: "Chainlink Hackathon Team" }],
@@ -32,14 +33,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Web3Provider>
-          <Navigation />
-          {children}
-        </Web3Provider>
+        <ThemeProvider defaultTheme="dark" storageKey="defi-agents-theme">
+          <Web3Provider>
+            <Navigation />
+            {children}
+          </Web3Provider>
+        </ThemeProvider>
       </body>
     </html>
   );

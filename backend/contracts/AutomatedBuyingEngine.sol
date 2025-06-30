@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import "./EnhancedAIPortfolioVault.sol";
-import "./ContinuousChainlinkRaffle.sol";
+import "./VRF25Raffle.sol";
 import "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -20,7 +20,7 @@ contract AutomatedBuyingEngine is AutomationCompatible, Ownable {
     // ============= INTERFACES =============
 
     EnhancedAIPortfolioVault public immutable portfolioVault;
-    ContinuousChainlinkRaffle public immutable raffle;
+    VRF25Raffle public immutable raffle;
 
     // ============= AUTOMATION SETTINGS =============
 
@@ -65,7 +65,7 @@ contract AutomatedBuyingEngine is AutomationCompatible, Ownable {
 
     constructor(address _portfolioVault, address _raffle) Ownable(msg.sender) {
         portfolioVault = EnhancedAIPortfolioVault(payable(_portfolioVault));
-        raffle = ContinuousChainlinkRaffle(payable(_raffle));
+        raffle = VRF25Raffle(payable(_raffle));
         lastGlobalCheck = block.timestamp;
         lastResetDay = block.timestamp / 1 days;
     }

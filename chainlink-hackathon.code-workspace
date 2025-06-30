@@ -37,7 +37,21 @@
       "**/coverage": true,
       "**/artifacts": true,
       "**/cache": true,
-      "**/typechain-types": true
+      "**/typechain-types": true,
+      "**/*-empty.js": true,
+      "**/*_empty.js": true,
+      "**/activate-simple.js": true,
+      "**/project-status.js": true,
+      "**/integration-test.js": true,
+      "**/*-temp.js": true,
+      "**/*_temp.js": true,
+      "**/*.tmp.js": true,
+      "**/*-backup.js": true,
+      "**/*_backup.js": true,
+      "**/*-old.js": true,
+      "**/*_old.js": true,
+      "**/*-duplicate.js": true,
+      "**/*_duplicate.js": true
     },
     "eslint.workingDirectories": [
       "frontend",

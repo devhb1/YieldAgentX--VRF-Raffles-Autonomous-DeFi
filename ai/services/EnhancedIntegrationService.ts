@@ -93,7 +93,7 @@ export class EnhancedIntegrationService {
   private readonly CONTRACT_ADDRESSES = {
     11155111: { // Sepolia
       portfolio: '0x718e79cd530E00B4B8295e8DaF07a9C2aF25479C',
-      raffle: '0x6cabD6d2b563b0827e3025F0Dd579e8FE5D441B5'
+      raffle: '0x636530e7F11b091f176Ae807ca0c69483b6D9cfE' // VRF v2.5 Raffle
     },
     43113: { // Fuji
       portfolio: '0x7B45F29E94B7C21E8D3F50A6E8C9F2D1A5E6B8C4',

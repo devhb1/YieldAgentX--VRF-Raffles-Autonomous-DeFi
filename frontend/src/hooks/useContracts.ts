@@ -5,7 +5,7 @@ import { getContractAddresses } from '../contracts/addresses';
 
 // Import ABIs
 import AdvancedAIPortfolioVaultABI from '../contracts/AdvancedAIPortfolioVault.json';
-import EnhancedChainlinkRaffleABI from '../contracts/EnhancedChainlinkRaffle.json';
+import VRF25RaffleABI from '../contracts/VRF25Raffle.json';
 
 export function useContracts() {
   const { address } = useAccount();
@@ -49,7 +49,7 @@ export function useContracts() {
           : null;
 
         const raffle = addresses.raffle !== '0x0000000000000000000000000000000000000000'
-          ? new ethers.Contract(addresses.raffle, EnhancedChainlinkRaffleABI.abi, signer)
+          ? new ethers.Contract(addresses.raffle, VRF25RaffleABI.abi, signer)
           : null;
 
         setContracts({ vault, raffle, provider, signer });
