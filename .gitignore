@@ -388,11 +388,54 @@ storybook-static
 /yarn-error.log*
 
 # ==========================================
+# PREVENT EMPTY/GARBAGE FILES
+# ==========================================
+# Empty JavaScript files
+*.js.empty
+*-empty.js
+*_empty.js
+
+# Temporary/test files
+*-temp.js
+*_temp.js
+*.tmp.js
+test-*.js.bak
+*-backup.js
+*_backup.js
+
+# Empty directories and files
+**/.DS_Store_empty
+**/Thumbs.db_empty
+
+# Status files that shouldn't be committed
+*_STATUS.md
+*_COMPLETE.md
+*_FIXED.md
+*_PROGRESS.md
+TEMP_*.md
+BACKUP_*.md
+
+# Duplicate scripts
+*-duplicate.js
+*_duplicate.js
+*-copy.js
+*_copy.js
+*-old.js
+*_old.js
+
+# ==========================================
 # DOCUMENTATION CLEANUP FOR HACKATHON
 # ==========================================
 # Keep only main README.md, ignore all other docs
 **/README.md
 !README.md
+
+# Specific README files to ignore
+ai/README.md
+backend/README.md
+frontend/README.md
+docs/README.md
+
 docs/
 scripts/
 AI_*.md
