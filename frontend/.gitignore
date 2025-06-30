@@ -1,0 +1,176 @@
+# ==========================================
+# FRONTEND .GITIGNORE
+# Next.js & React Application
+# ==========================================
+
+# ==========================================
+# ENVIRONMENT & SECRETS
+# ==========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# ==========================================
+# NEXT.JS BUILD OUTPUT
+# ==========================================
+/.next/
+/out/
+/build/
+
+# ==========================================
+# NODE.JS DEPENDENCIES
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# PACKAGE MANAGERS
+# ==========================================
+# NPM
+package-lock.json
+
+# Yarn
+.yarn/
+.yarn-integrity
+yarn.lock
+
+# PNPM
+pnpm-lock.yaml
+
+# ==========================================
+# DEVELOPMENT TOOLS
+# ==========================================
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettierignore
+
+# ==========================================
+# IDE & EDITOR FILES
+# ==========================================
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+
+# ==========================================
+# OPERATING SYSTEM FILES
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ==========================================
+# TESTING & COVERAGE
+# ==========================================
+# Test coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Jest
+jest.config.js.bak
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# ==========================================
+# TEMPORARY FILES
+# ==========================================
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# ==========================================
+# LOGS
+# ==========================================
+logs/
+*.log
+
+# ==========================================
+# DEPLOYMENT & BUILD
+# ==========================================
+# Vercel
+.vercel/
+
+# Netlify
+.netlify/
+
+# Static export
+/static/
+
+# ==========================================
+# WEB3 & BLOCKCHAIN
+# ==========================================
+# Wallet files (if any)
+*.keystore
+*.json.backup
+
+# Contract artifacts (should be in backend)
+artifacts/
+cache/
+
+# ==========================================
+# ANALYTICS & MONITORING
+# ==========================================
+# Bundle analyzer
+.bundle-analyzer/
+
+# Lighthouse reports
+lighthouse-report.html
+lighthouse-report.json
+
+# ==========================================
+# SECURITY
+# ==========================================
+# API keys and secrets
+secrets.json
+config.json
+private-keys.txt
+
+# Certificate files
+*.pem
+*.key
+*.crt
+*.cert

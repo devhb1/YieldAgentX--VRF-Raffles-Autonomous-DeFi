@@ -1,0 +1,23 @@
+{
+  "network": "sepolia",
+  "deployer": "0xd1c9BD2a14b00C99803B5Ded4571814D227566C7",
+  "deploymentTime": "2025-06-30T00:01:37.273Z",
+  "blockNumber": 8658032,
+  "contracts": {
+    "enhancedAIPortfolioVault": "0x8CC7161bF95642262e5B67D2CFDC516B148E390E",
+    "continuousChainlinkRaffle": "0x1e030A51Bf6514c1f8781711c574944f59ae6f57"
+  },
+  "config": {
+    "vrfCoordinator": "0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625",
+    "vrfKeyHash": "0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c",
+    "vrfSubscriptionId": 1,
+    "usdc": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+    "ethUsdFeed": "0x694AA1769357215DE4FAC081bf1f309aDC325306",
+    "usdcUsdFeed": "0xA2F78ab2355fe2f984D808B5CeE7FD0A93D5270E",
+    "linkToken": "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+    "lidoStETH": "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F",
+    "aavePool": "0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951",
+    "uniswapV3Router": "0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD",
+    "weth": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14"
+  }
+}

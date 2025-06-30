@@ -1,0 +1,417 @@
+# ==========================================
+# DeFi Multi-Agent: Yield Optimizer with Raffle
+# Chainlink Hackathon Project
+# ==========================================
+
+# ==========================================
+# ENVIRONMENT & SECRETS (CRITICAL!)
+# ==========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# Private keys and credentials (NEVER COMMIT!)
+*.key
+*.pem
+*.p12
+*.pfx
+private-keys.txt
+mnemonic.txt
+wallet.json
+keystore/
+credentials.json
+secrets/
+
+# AWS credentials
+.aws/
+aws-credentials.json
+aws-config.json
+
+# API keys and tokens
+api-keys.txt
+*.token
+*.secret
+
+# ==========================================
+# DEVELOPMENT & IDE FILES
+# ==========================================
+
+# VS Code
+.vscode/
+*.code-workspace
+.history/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ==========================================
+# TEMPORARY & SYSTEM FILES
+# ==========================================
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.cache
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# NODE.JS & DEPENDENCIES
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# ==========================================
+# BUILD OUTPUTS & ARTIFACTS
+# ==========================================
+
+# Frontend build outputs
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/dist/
+
+# Backend build outputs
+backend/artifacts/
+backend/cache/
+backend/typechain-types/
+backend/dist/
+backend/build/
+
+# AI build outputs
+ai/dist/
+ai/build/
+ai/lib/
+
+# General build directories
+dist/
+build/
+out/
+lib/
+
+# ==========================================
+# BLOCKCHAIN & SMART CONTRACTS
+# ==========================================
+
+# Hardhat
+cache/
+artifacts/
+typechain-types/
+
+# Truffle
+build/
+
+# Brownie
+build/
+reports/
+
+# Solidity coverage
+coverage.json
+coverageEnv/
+
+# Gas reports
+gas-report.txt
+
+# Contract flattened files
+flattened/
+*.flat.sol
+
+# ==========================================
+# DEVELOPMENT TOOLS
+# ==========================================
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# ==========================================
+# LOGS & DEBUGGING
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime logs
+*.log.*
+*.out
+*.err
+
+# Debug files
+debug/
+.debug/
+
+# ==========================================
+# AI & MACHINE LEARNING
+# ==========================================
+
+# Model files (large binaries)
+*.h5
+*.pkl
+*.pickle
+*.joblib
+*.model
+models/*.bin
+models/*.safetensors
+
+# Training data and outputs
+data/
+datasets/
+training_outputs/
+checkpoints/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ==========================================
+# TESTING & DOCUMENTATION
+# ==========================================
+
+# Test reports
+test-results/
+coverage/
+.nyc_output/
+junit.xml
+
+# Documentation builds
+docs/build/
+site/
+
+# ==========================================
+# DEPLOYMENT & INFRASTRUCTURE
+# ==========================================
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Kubernetes
+*.kubeconfig
+
+# Cloud deployment configs
+.vercel
+.netlify
+
+# ==========================================
+# MONITORING & ANALYTICS
+# ==========================================
+
+# Performance monitoring
+.trace
+.profile
+
+# Analytics
+analytics/
+metrics/
+
+# ==========================================
+# MISCELLANEOUS
+# ==========================================
+
+# Runtime directories
+.next
+.nuxt
+.vuepress/dist
+
+# Storybook build outputs
+storybook-static
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# SvelteKit build / generate output
+.svelte-kit
+
+# ==========================================
+# ROOT LEVEL PROTECTION (CRITICAL!)
+# ==========================================
+
+# Allow essential root files
+!README.md
+!.gitignore
+!cleanup.sh
+!chainlink-hackathon.code-workspace
+!.vscode/settings.json
+
+# Prevent duplicate config files in root directory
+/package.json
+/package-lock.json
+/yarn.lock
+/pnpm-lock.yaml
+/.env
+/.env.*
+/tsconfig.json
+/tsconfig.*.json
+/hardhat.config.*
+/next.config.*
+/tailwind.config.*
+/postcss.config.*
+/babel.config.*
+/jest.config.*
+/webpack.config.*
+/rollup.config.*
+/vite.config.*
+/.eslintrc.*
+/.prettierrc.*
+/.babelrc.*
+/nodemon.json
+
+# Prevent build artifacts in root
+/dist/
+/build/
+/out/
+/lib/
+/.next/
+/coverage/
+/artifacts/
+/cache/
+/typechain-types/
+/*.tsbuildinfo
+
+# Prevent logs in root
+/*.log
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+
+# ==========================================
+# DOCUMENTATION CLEANUP FOR HACKATHON
+# ==========================================
+# Keep only main README.md, ignore all other docs
+**/README.md
+!README.md
+docs/
+scripts/
+AI_*.md
+ALL_*.md
+COMPLETE_*.md
+DEMO.md
+ENHANCED_*.md
+FINAL_*.md
+FIXES_*.md
+INTEGRATION_*.md
+ISSUES_*.md
+MOCK_*.md
+MULTI_*.md
+PORTFOLIO_*.md
+PRICE_*.md
+REACT_*.md
+REAL_*.md
+SUBMISSION-*.md
+DEVFOLIO_SUBMISSION.md
+HACKATHON_BRANDING.md
+
+# End of file

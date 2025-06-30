@@ -1,0 +1,10 @@
+{
+  "network": "sepolia",
+  "contracts": {
+    "AdvancedAIPortfolioVault": {
+      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "deploymentHash": "0xb40d18c68517816259f649a895d738472452caa91e84955767295594b2eb011a"
+    }
+  },
+  "timestamp": "2025-06-29T10:58:28.954Z"
+}

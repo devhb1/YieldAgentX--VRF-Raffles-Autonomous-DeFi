@@ -1,0 +1,14 @@
+{
+  "network": "sepolia",
+  "chainId": "11155111",
+  "deployer": "0xd1c9BD2a14b00C99803B5Ded4571814D227566C7",
+  "deploymentTime": "2025-06-30T03:22:50.986Z",
+  "contracts": {
+    "continuousChainlinkRaffleV25": "0x6a25B352A391510B47DA8f8a894dce02F41EF6a2"
+  },
+  "config": {
+    "subscriptionId": "63638762572181911466406949252427640028961704213268465121364079606304171403540",
+    "vrfCoordinator": "0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625",
+    "keyHash": "0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae"
+  }
+}
