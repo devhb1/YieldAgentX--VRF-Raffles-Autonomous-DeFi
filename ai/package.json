@@ -37,6 +37,7 @@
     "@elizaos/core": "^0.1.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.23",
+    "@vercel/node": "^5.3.4",
     "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
