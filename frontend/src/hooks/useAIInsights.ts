@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useUserAgents, formatAgentMetrics } from './useAIVault'
 
+const AI_BACKEND_URL = process.env.NEXT_PUBLIC_AI_SERVICE_URL || 'http://localhost:3001'
+
 export interface PortfolioInsights {
     totalValue: number
     totalYield: number
@@ -47,26 +49,62 @@ export function useAIInsights() {
             const averageAPR = portfolioData.reduce((sum, agent) => sum + parseFloat(agent.apr), 0) / portfolioData.length
             const totalReturn = portfolioData.reduce((sum, agent) => sum + parseFloat(agent.performance), 0) / portfolioData.length
 
-            // Simulate AI analysis (in a real app, this would call your AI service)
-            const aiInsights = await analyzePortfolioWithAI(portfolioData)
+            // Call real AI backend for analysis
+            const aiAnalysisResponse = await fetch(`${AI_BACKEND_URL}/api/analyze`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    portfolioValue: totalValue,
+                    currentAllocations: portfolioData.reduce((acc, agent) => {
+                        acc[`agent_${agent.address}`] = parseFloat(agent.totalValue)
+                        return acc
+                    }, {} as Record<string, number>),
+                    riskTolerance: averageAPR > 15 ? 'aggressive' : averageAPR > 10 ? 'balanced' : 'conservative'
+                })
+            })
+
+            if (!aiAnalysisResponse.ok) {
+                throw new Error('Failed to get AI analysis')
+            }
+
+            const aiAnalysisData = await aiAnalysisResponse.json()
+            const aiInsights = aiAnalysisData.success ? aiAnalysisData.data : null
+
+            if (!aiInsights) {
+                throw new Error('Invalid AI analysis response')
+            }
 
             setInsights({
                 totalValue,
                 totalYield,
                 averageAPR,
                 totalReturn,
-                riskScore: aiInsights.riskScore,
-                marketSentiment: aiInsights.marketSentiment,
-                confidence: aiInsights.confidence,
-                rebalanceStatus: aiInsights.rebalanceStatus,
-                recommendations: aiInsights.recommendations,
-                riskFactors: aiInsights.riskFactors,
+                riskScore: aiInsights.riskScore || 50,
+                marketSentiment: aiInsights.marketSentiment || 'neutral',
+                confidence: aiInsights.confidence || 75,
+                rebalanceStatus: aiInsights.rebalanceNeeded ? 'needs-rebalance' : 'optimal',
+                recommendations: aiInsights.recommendations || ['Consider diversifying your portfolio', 'Monitor market conditions closely'],
+                riskFactors: aiInsights.riskFactors || ['Market volatility', 'Protocol risks'],
                 lastUpdate: new Date()
             })
 
-            // Fetch market data
-            const market = await fetchMarketData()
-            setMarketData(market)
+            // Fetch market data from AI service
+            const marketResponse = await fetch(`${AI_BACKEND_URL}/api/market-sentiment`)
+            if (marketResponse.ok) {
+                const marketResponseData = await marketResponse.json()
+                const marketData = marketResponseData.success ? marketResponseData.data : null
+                if (marketData) {
+                    setMarketData({
+                        sentiment: marketData.overall_sentiment || 'neutral',
+                        confidence: marketData.confidence_score || 75,
+                        ethPrice: marketData.eth_price || 3000,
+                        defiTvl: marketData.defi_tvl || 50000000000,
+                        volatility: marketData.volatility || 25
+                    })
+                }
+            }
 
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to generate insights')
@@ -90,69 +128,6 @@ export function useAIInsights() {
     }
 }
 
-// Simulated AI analysis function (replace with real AI service call)
-async function analyzePortfolioWithAI(portfolioData: any[]): Promise<any> {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    const totalValue = portfolioData.reduce((sum, agent) => sum + parseFloat(agent.totalValue), 0)
-    const avgPerformance = portfolioData.reduce((sum, agent) => sum + parseFloat(agent.performance), 0) / portfolioData.length
-
-    // Calculate risk score based on strategy distribution and performance
-    const strategyDistribution = portfolioData.reduce((acc, agent) => {
-        acc[agent.strategy] = (acc[agent.strategy] || 0) + 1
-        return acc
-    }, {})
-
-    const aggressiveCount = strategyDistribution['Aggressive'] || 0
-    const conservativeCount = strategyDistribution['Conservative'] || 0
-    const balancedCount = strategyDistribution['Balanced'] || 0
-
-    const riskScore = Math.min(10, Math.max(1,
-        (aggressiveCount * 8 + balancedCount * 5 + conservativeCount * 2) / portfolioData.length
-    ))
-
-    // Generate recommendations based on portfolio analysis
-    const recommendations = []
-    if (aggressiveCount > portfolioData.length * 0.6) {
-        recommendations.push('Consider reducing aggressive strategies for better risk management')
-    }
-    if (avgPerformance < 0) {
-        recommendations.push('Current market conditions suggest defensive positioning')
-    }
-    if (totalValue > 1000) {
-        recommendations.push('Portfolio size allows for diversification into new protocols')
-    }
-
-    // Risk factors
-    const riskFactors = []
-    if (riskScore > 7) riskFactors.push('High concentration in aggressive strategies')
-    if (avgPerformance < -5) riskFactors.push('Negative performance trend detected')
-    if (portfolioData.length < 3) riskFactors.push('Limited diversification')
-
-    return {
-        riskScore: Math.round(riskScore),
-        marketSentiment: avgPerformance > 5 ? 'bullish' : avgPerformance < -2 ? 'bearish' : 'neutral',
-        confidence: Math.round(70 + Math.random() * 20), // 70-90% confidence
-        rebalanceStatus: avgPerformance < -10 ? 'critical' : avgPerformance < 0 ? 'needs-rebalance' : 'optimal',
-        recommendations,
-        riskFactors
-    }
-}
-
-// Simulated market data fetch (replace with real market data API)
-async function fetchMarketData(): Promise<MarketData> {
-    await new Promise(resolve => setTimeout(resolve, 800))
-
-    return {
-        sentiment: ['bullish', 'bearish', 'neutral'][Math.floor(Math.random() * 3)] as any,
-        confidence: Math.round(60 + Math.random() * 30),
-        ethPrice: 2200 + Math.random() * 400,
-        defiTvl: 45000000000 + Math.random() * 10000000000,
-        volatility: 0.3 + Math.random() * 0.4
-    }
-}
-
 // Hook for real-time market sentiment
 export function useMarketSentiment() {
     const [sentiment, setSentiment] = useState<{
@@ -165,22 +140,23 @@ export function useMarketSentiment() {
     const fetchSentiment = async () => {
         setIsLoading(true)
         try {
-            // Simulate sentiment analysis
-            await new Promise(resolve => setTimeout(resolve, 1000))
-
-            const sentiments = ['bullish', 'bearish', 'neutral'] as const
-            const overall = sentiments[Math.floor(Math.random() * 3)]
-
-            setSentiment({
-                overall,
-                confidence: Math.round(65 + Math.random() * 25),
-                factors: [
-                    'ETH price momentum',
-                    'DeFi TVL trends',
-                    'Yield farming opportunities',
-                    'Market volatility analysis'
-                ]
-            })
+            const response = await fetch(`${AI_BACKEND_URL}/api/market-sentiment`)
+            if (response.ok) {
+                const responseData = await response.json()
+                const marketData = responseData.success ? responseData.data : null
+                if (marketData) {
+                    setSentiment({
+                        overall: marketData.overall_sentiment || 'neutral',
+                        confidence: marketData.confidence_score || 75,
+                        factors: marketData.factors || [
+                            'ETH price momentum',
+                            'DeFi TVL trends',
+                            'Yield farming opportunities',
+                            'Market volatility analysis'
+                        ]
+                    })
+                }
+            }
         } catch (error) {
             console.error('Failed to fetch sentiment:', error)
         } finally {

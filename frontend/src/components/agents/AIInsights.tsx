@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { Card, Button, Badge } from '@/components/ui'
 import { Brain, TrendingUp, AlertTriangle, Lightbulb, Target, Zap, RefreshCw } from 'lucide-react'
 import { useAIInsights } from '@/hooks/useAIInsights'
+import { useManualRebalance, useUserAgents } from '@/hooks/useAIVault'
+import { toast } from 'react-hot-toast'
 
 export function AIInsights() {
   const [isGenerating, setIsGenerating] = useState(false)
+  const [applyingRecommendations, setApplyingRecommendations] = useState<Record<number, boolean>>({})
   const { 
     insights, 
     marketData, 
@@ -12,11 +15,59 @@ export function AIInsights() {
     error, 
     refetch 
   } = useAIInsights()
+  
+  const { agents } = useUserAgents()
+  const { manualRebalance, isLoading: isRebalancing } = useManualRebalance()
 
   const handleGenerateInsights = async () => {
     setIsGenerating(true)
     await refetch()
     setIsGenerating(false)
+  }
+
+  const handleApplyRecommendation = async (index: number, recommendation: string) => {
+    setApplyingRecommendations(prev => ({ ...prev, [index]: true }))
+    
+    try {
+      // Check if user has agents to rebalance
+      if (!agents || agents.length === 0) {
+        toast.error('No agents found to rebalance. Create an agent first.')
+        return
+      }
+
+      // Show confirmation dialog
+      const confirmed = window.confirm(
+        `Apply recommendation: "${recommendation}"?\n\nThis will trigger a rebalance of your portfolio agents.`
+      )
+      
+      if (!confirmed) return
+
+      // For now, trigger rebalance on the first agent
+      // In a more sophisticated implementation, this would analyze which agents need rebalancing
+      const firstAgent = agents[0]
+      
+      toast.loading('Applying recommendation...', { id: `apply-${index}` })
+      
+      await manualRebalance(firstAgent.id)
+      
+      toast.success(`Successfully applied recommendation: ${recommendation}`, { 
+        id: `apply-${index}`,
+        duration: 5000 
+      })
+      
+      // Refresh insights after rebalancing
+      setTimeout(() => {
+        refetch()
+      }, 2000)
+      
+    } catch (error) {
+      console.error('Failed to apply recommendation:', error)
+      toast.error('Failed to apply recommendation. Please try again.', { 
+        id: `apply-${index}` 
+      })
+    } finally {
+      setApplyingRecommendations(prev => ({ ...prev, [index]: false }))
+    }
   }
 
   // Use default values if data is not available
@@ -166,8 +217,21 @@ export function AIInsights() {
                   </div>
                 </div>
                 <p className="text-purple-200 mb-3">{rec.description}</p>
-                <Button size="sm" variant="outline" className="border-purple-500/50 text-purple-200 hover:bg-purple-700/30">
-                  {rec.action}
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="border-purple-500/50 text-purple-200 hover:bg-purple-700/30"
+                  onClick={() => handleApplyRecommendation(index, rec.description)}
+                  disabled={applyingRecommendations[index]}
+                >
+                  {applyingRecommendations[index] ? (
+                    <>
+                      <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
+                      Applying...
+                    </>
+                  ) : (
+                    rec.action
+                  )}
                 </Button>
               </div>
             )
