@@ -60,12 +60,6 @@ tsconfig.tsbuildinfo
 # 📄 Documentation & Reports
 # ===============================
 
-# Status and diagnosis files
-AGENT_DISPLAY_DIAGNOSIS.md
-DEPLOYMENT_SUCCESS.md
-NO_EXPIRY_IMPLEMENTATION_COMPLETE.md
-PROJECT_COMPLETION_REPORT.md
-REAL_ACTIVITY_IMPLEMENTATION.md
 
 # Screenshots and media (keep essential ones)
 Screenshot*.png
@@ -78,9 +72,6 @@ Screenshot*.png
 
 # Keep essential documentation
 !README.md
-!HACKATHON_SUBMISSION.md
-!VERCEL_DEPLOYMENT_GUIDE.md
-!LICENSE
 !frontend/README.md
 !backend/README.md
 !ai/README.md
@@ -375,15 +366,6 @@ docs/dist/
 **/cache/*.json
 !**/cache/.gitkeep
 
-# Auto-generated summary files
-*SUMMARY*.md
-*STATUS*.md
-*REPORT*.md
-*FIX*.md
-CLEANUP*.md
-PROJECT_STATUS*.md
-!README.md
-!DEPLOYMENT.md
 
 # Shell scripts (except essential ones)
 *.sh
