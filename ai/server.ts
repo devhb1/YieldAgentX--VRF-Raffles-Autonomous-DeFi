@@ -10,7 +10,10 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    credentials: true
+}));
 app.use(express.json());
 
 // Types matching frontend expectations
@@ -31,13 +34,16 @@ interface AIAnalysisResult {
 }
 
 interface MarketSentiment {
-    sentiment: 'bullish' | 'bearish' | 'neutral';
-    confidence: number;
+    overall_sentiment: 'bullish' | 'bearish' | 'neutral';
+    confidence_score: number;
     indicators: Array<{
         name: string;
         value: string | number;
     }>;
     overall: string;
+    eth_price: number;
+    defi_tvl: number;
+    volatility: number;
     timestamp: number;
 }
 
@@ -77,6 +83,7 @@ app.post('/api/analyze', async (req, res) => {
 
         if (!portfolioData || typeof portfolioData.portfolioValue !== 'number') {
             return res.status(400).json({
+                success: false,
                 error: 'Invalid portfolio data provided'
             });
         }
@@ -91,10 +98,14 @@ app.post('/api/analyze', async (req, res) => {
             timestamp: Date.now()
         };
 
-        res.json(result);
+        res.json({
+            success: true,
+            data: result
+        });
     } catch (error) {
         console.error('Portfolio analysis failed:', error);
         res.status(500).json({
+            success: false,
             error: 'Portfolio analysis failed',
             details: error instanceof Error ? error.message : 'Unknown error'
         });
@@ -107,17 +118,24 @@ app.get('/api/market-sentiment', async (req, res) => {
         const sentiment = await productionAIService.getMarketSentiment();
 
         const result: MarketSentiment = {
-            sentiment: sentiment.sentiment,
-            confidence: sentiment.confidence,
+            overall_sentiment: sentiment.sentiment,
+            confidence_score: sentiment.confidence,
             indicators: sentiment.indicators,
             overall: sentiment.analysis,
+            eth_price: 3200, // Mock ETH price
+            defi_tvl: 50000000000, // Mock DeFi TVL
+            volatility: 25, // Mock volatility percentage
             timestamp: Date.now()
         };
 
-        res.json(result);
+        res.json({
+            success: true,
+            data: result
+        });
     } catch (error) {
         console.error('Market sentiment analysis failed:', error);
         res.status(500).json({
+            success: false,
             error: 'Market sentiment analysis failed',
             details: error instanceof Error ? error.message : 'Unknown error'
         });
@@ -131,6 +149,7 @@ app.post('/api/risk-assessment', async (req, res) => {
 
         if (!portfolioData || typeof portfolioData.portfolioValue !== 'number') {
             return res.status(400).json({
+                success: false,
                 error: 'Invalid portfolio data provided'
             });
         }
@@ -143,10 +162,14 @@ app.post('/api/risk-assessment', async (req, res) => {
             timestamp: Date.now()
         };
 
-        res.json(result);
+        res.json({
+            success: true,
+            data: result
+        });
     } catch (error) {
         console.error('Risk assessment failed:', error);
         res.status(500).json({
+            success: false,
             error: 'Risk assessment failed',
             details: error instanceof Error ? error.message : 'Unknown error'
         });

@@ -15,6 +15,9 @@ export interface PortfolioAnalysis {
     reasoning: string;
     allocationStrategy: AllocationDecision[];
     yieldPrediction: YieldForecast;
+    riskFactors?: string[];
+    marketSentiment?: 'bullish' | 'bearish' | 'neutral';
+    confidence?: number;
 }
 
 export interface AllocationDecision {
@@ -148,7 +151,10 @@ class ProductionAIService {
                 rebalanceNeeded: parsed.rebalanceNeeded || false,
                 reasoning: parsed.reasoning || "Standard analysis completed",
                 allocationStrategy: parsed.allocationStrategy || this.getDefaultAllocation(),
-                yieldPrediction: parsed.yieldPrediction || this.getDefaultYieldPrediction()
+                yieldPrediction: parsed.yieldPrediction || this.getDefaultYieldPrediction(),
+                riskFactors: parsed.riskFactors || ['Market volatility', 'Protocol risks'],
+                marketSentiment: parsed.marketSentiment || 'neutral',
+                confidence: parsed.confidence || 75
             };
         } catch (error) {
             console.error('Portfolio analysis failed:', error);
@@ -199,7 +205,10 @@ class ProductionAIService {
             rebalanceNeeded: false,
             reasoning: "Default conservative analysis applied",
             allocationStrategy: this.getDefaultAllocation(),
-            yieldPrediction: this.getDefaultYieldPrediction()
+            yieldPrediction: this.getDefaultYieldPrediction(),
+            riskFactors: ['Market volatility', 'Protocol risks', 'Gas fee fluctuations'],
+            marketSentiment: 'neutral',
+            confidence: 75
         };
     }
 

@@ -1,7 +1,16 @@
 {
   "functions": {
     "api/*.ts": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "memory": 512
     }
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
   }
 }

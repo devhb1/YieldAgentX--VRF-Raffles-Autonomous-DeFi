@@ -1,14 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import productionAIService from '../services/ProductionAIService'
+import { setCorsHeaders, handleOptions } from '../utils/cors'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Set CORS headers
-    res.setHeader('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*')
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    setCorsHeaders(req, res)
 
     if (req.method === 'OPTIONS') {
-        res.status(200).end()
+        handleOptions(res)
         return
     }
 
