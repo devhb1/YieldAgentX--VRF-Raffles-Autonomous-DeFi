@@ -1,62 +1,91 @@
+/**
+ * Hardhat Configuration for YieldAgentX Contracts
+ */
+require('dotenv').config();
+const { HardhatUserConfig } = require("hardhat/config");
 require("@nomicfoundation/hardhat-toolbox");
-require("dotenv").config();
+require("@nomicfoundation/hardhat-chai-matchers");
+require("@nomiclabs/hardhat-ethers");
+require("hardhat-deploy");
 
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: {
-    version: "0.8.28",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 200,
-      },
+// Private key from .env file or default to a test mnemonic
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
+// Default API keys if not provided
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
+const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
+
+/**
+ * @type import('hardhat/config').HardhatUserConfig
+ */
+const config = {
+    solidity: {
+        version: "0.8.20",
+        settings: {
+            optimizer: {
+                enabled: true,
+                runs: 200
+            }
+        }
     },
-  },
-  networks: {
-    hardhat: {
-      chainId: 31337,
+    networks: {
+        // Default to Hardhat Network for testing
+        hardhat: {
+            chainId: 31337,
+            forking: process.env.FORK_URL ? {
+                url: process.env.FORK_URL,
+            } : undefined,
+        },
+        // Mainnet configuration
+        mainnet: {
+            url: `https://mainnet.infura.io/v3/${INFURA_API_KEY}`,
+            accounts: [PRIVATE_KEY],
+            chainId: 1,
+        },
+        // Sepolia testnet
+        sepolia: {
+            url: "https://ethereum-sepolia-rpc.publicnode.com",
+            accounts: [PRIVATE_KEY],
+            chainId: 11155111,
+        },
+        // Avalanche Fuji testnet
+        fuji: {
+            url: "https://api.avax-test.network/ext/bc/C/rpc",
+            accounts: [PRIVATE_KEY],
+            chainId: 43113,
+        },
+        // Polygon mainnet
+        polygon: {
+            url: `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`,
+            accounts: [PRIVATE_KEY],
+            chainId: 137,
+        },
+        // Arbitrum mainnet
+        arbitrum: {
+            url: `https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}`,
+            accounts: [PRIVATE_KEY],
+            chainId: 42161,
+        },
     },
-    ethereum: {
-      url: process.env.ETHEREUM_RPC_URL || "https://eth-mainnet.g.alchemy.com/v2/your-api-key",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    // For contract verification
+    etherscan: {
+        apiKey: ETHERSCAN_API_KEY
     },
-    polygon: {
-      url: process.env.POLYGON_RPC_URL || "https://polygon-mainnet.g.alchemy.com/v2/your-api-key",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    namedAccounts: {
+        deployer: {
+            default: 0,
+        },
     },
-    avalanche: {
-      url: process.env.AVALANCHE_RPC_URL || "https://api.avax.network/ext/bc/C/rpc",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    paths: {
+        sources: "./contracts",
+        tests: "./test",
+        cache: "./cache",
+        artifacts: "./artifacts"
     },
-    // Testnets
-    sepolia: {
-      url: process.env.SEPOLIA_RPC_URL || "https://eth-sepolia.g.alchemy.com/v2/your-api-key",
-      accounts: [
-        process.env.PRIVATE_KEY || "",
-        "f5f041510e33962970399baf5650205ac7dbdebec34ee754cd0a8be445eb031e" // Second test account
-      ].filter(key => key !== ""),
-    },
-    polygonMumbai: {
-      url: process.env.POLYGON_MUMBAI_RPC_URL || "https://polygon-mumbai.g.alchemy.com/v2/your-api-key",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-    },
-    avalancheFuji: {
-      url: process.env.AVALANCHE_FUJI_RPC_URL || "https://api.avax-test.network/ext/bc/C/rpc",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-    },
-  },
-  etherscan: {
-    apiKey: {
-      mainnet: process.env.ETHERSCAN_API_KEY,
-      sepolia: process.env.ETHERSCAN_API_KEY,
-      polygon: process.env.POLYGONSCAN_API_KEY,
-      avalanche: process.env.SNOWTRACE_API_KEY,
-    },
-  },
-  paths: {
-    sources: "./contracts",
-    tests: "./test",
-    cache: "./cache",
-    artifacts: "./artifacts",
-  },
+    // Prevent gas estimation errors during testing
+    mocha: {
+        timeout: 100000
+    }
 };
+
+module.exports = config;

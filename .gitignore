@@ -1,58 +1,149 @@
-# ==========================================
-# DeFi Multi-Agent: Yield Optimizer with Raffle
-# Chainlink Hackathon Project
-# ==========================================
+# 🚫 YieldAgentX GitIgnore Configuration
+# Comprehensive gitignore for Next.js, Node.js, and Hardhat projects
 
-# ==========================================
-# ENVIRONMENT & SECRETS (CRITICAL!)
-# ==========================================
+# ===============================
+# 🔑 Environment & Secrets
+# ===============================
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.*.local
+.env.production
+.env.staging
+.env.development
+.env.test
+*.env
+.env.*
+!.env.example
 
-# Private keys and credentials (NEVER COMMIT!)
-*.key
-*.pem
-*.p12
-*.pfx
-private-keys.txt
+# Private keys and mnemonics (CRITICAL)
+private.key
 mnemonic.txt
-wallet.json
-keystore/
-credentials.json
-secrets/
+secrets.json
+*.pem
+*.key
 
-# AWS credentials
-.aws/
-aws-credentials.json
-aws-config.json
+# Development files
+.env.development
+test-contract.html
+*_new.tsx
+*_old.tsx
+*_backup.tsx
 
-# API keys and tokens
-api-keys.txt
-*.token
-*.secret
+# ===============================
+# 📦 Dependencies
+# ===============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# ==========================================
-# DEVELOPMENT & IDE FILES
-# ==========================================
+# Package-lock files (choose one)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
-# VS Code
+# ===============================
+# 🏗️ Build Outputs
+# ===============================
+
+# Next.js build outputs
+.next/
+out/
+dist/
+build/
+
+# TypeScript build outputs
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ===============================
+# 📄 Documentation & Reports
+# ===============================
+
+# Status and diagnosis files
+AGENT_DISPLAY_DIAGNOSIS.md
+DEPLOYMENT_SUCCESS.md
+NO_EXPIRY_IMPLEMENTATION_COMPLETE.md
+PROJECT_COMPLETION_REPORT.md
+REAL_ACTIVITY_IMPLEMENTATION.md
+
+# Screenshots and media (keep essential ones)
+Screenshot*.png
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.mov
+
+# Keep essential documentation
+!README.md
+!HACKATHON_SUBMISSION.md
+!VERCEL_DEPLOYMENT_GUIDE.md
+!LICENSE
+!frontend/README.md
+!backend/README.md
+!ai/README.md
+
+# Hardhat build outputs
+artifacts/
+cache/
+typechain/
+typechain-types/
+
+# ===============================
+# 🧪 Testing & Coverage
+# ===============================
+coverage/
+coverage.json
+*.lcov
+.nyc_output/
+test-results/
+test-report.html
+
+# Jest
+jest.config.js
+.coverage/
+
+# ===============================
+# 📊 Logs & Debugging
+# ===============================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime logs
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Debug files
+.vscode/settings.json
+.vscode/launch.json
+debug.log
+
+# ===============================
+# 🔧 Editor & IDE
+# ===============================
+
+# VSCode
 .vscode/
-*.code-workspace
-.history/
+!.vscode/extensions.json
+!.vscode/settings.json.example
 
-# IntelliJ IDEA
+# WebStorm/IntelliJ
 .idea/
 *.iml
 *.ipr
 *.iws
 
 # Sublime Text
-*.sublime-workspace
 *.sublime-project
+*.sublime-workspace
 
 # Vim
 *.swp
@@ -65,207 +156,163 @@ api-keys.txt
 /.emacs.desktop
 /.emacs.desktop.lock
 *.elc
-auto-save-list
-tramp
-.\#*
 
-# ==========================================
-# TEMPORARY & SYSTEM FILES
-# ==========================================
+# ===============================
+# 🖥️ Operating System
+# ===============================
 
-# Temporary files
-*.tmp
-*.temp
-*.log
-*.cache
-
-# System files
+# macOS
 .DS_Store
-.DS_Store?
+.AppleDouble
+.LSOverride
+Icon?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
+
+# Windows
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
 
-# ==========================================
-# NODE.JS & DEPENDENCIES
-# ==========================================
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Package manager files
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-.pnpm-debug.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output
-
-# ==========================================
-# BUILD OUTPUTS & ARTIFACTS
-# ==========================================
-
-# Frontend build outputs
-frontend/.next/
-frontend/out/
-frontend/build/
-frontend/dist/
-
-# Backend build outputs
-backend/artifacts/
-backend/cache/
-backend/typechain-types/
-backend/dist/
-backend/build/
-
-# AI build outputs
-ai/dist/
-ai/build/
-ai/lib/
-
-# General build directories
-dist/
-build/
-out/
-lib/
-
-# ==========================================
-# BLOCKCHAIN & SMART CONTRACTS
-# ==========================================
-
-# Hardhat
-cache/
-artifacts/
-typechain-types/
-
-# Truffle
-build/
-
-# Brownie
-build/
-reports/
-
-# Solidity coverage
-coverage.json
-coverageEnv/
-
-# Gas reports
-gas-report.txt
-
-# Contract flattened files
-flattened/
-*.flat.sol
-
-# ==========================================
-# DEVELOPMENT TOOLS
-# ==========================================
-
-# IDEs and editors
-.vscode/
-.idea/
-*.swp
-*.swo
+# Linux
 *~
+.fuse_hidden*
+.directory
+.Trash-*
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# ===============================
+# 📱 Mobile Development
+# ===============================
+# React Native
+*.ipa
+*.apk
+*.aab
+
+# ===============================
+# 🌐 Frontend Specific
+# ===============================
+
+# Next.js
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Storybook
+storybook-static/
+
+# Webpack
+webpack-stats.json
+
+# Parcel
+.parcel-cache/
+
+# Vite
+dist-ssr/
+*.local
+
+# ===============================
+# 🤖 AI & Backend Specific
+# ===============================
+
+# AI model files
+*.model
+*.weights
+models/
+checkpoints/
 
 # Temporary files
-*.tmp
-*.temp
+tmp/
+temp/
 .tmp/
 .temp/
 
-# ==========================================
-# LOGS & DEBUGGING
-# ==========================================
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Runtime logs
-*.log.*
-*.out
-*.err
-
-# Debug files
-debug/
-.debug/
-
-# ==========================================
-# AI & MACHINE LEARNING
-# ==========================================
-
-# Model files (large binaries)
-*.h5
-*.pkl
-*.pickle
-*.joblib
-*.model
-models/*.bin
-models/*.safetensors
-
-# Training data and outputs
-data/
-datasets/
-training_outputs/
-checkpoints/
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# Python cache
+# Python (if using)
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
 
-# ==========================================
-# TESTING & DOCUMENTATION
-# ==========================================
+# ===============================
+# ⛓️ Blockchain & Hardhat
+# ===============================
 
-# Test reports
-test-results/
+# Hardhat
+artifacts/
+cache/
 coverage/
-.nyc_output/
-junit.xml
+typechain/
+typechain-types/
 
-# Documentation builds
-docs/build/
-site/
+# Hardhat network files
+.hardhat_network_*
 
-# ==========================================
-# DEPLOYMENT & INFRASTRUCTURE
-# ==========================================
+# Solidity coverage
+coverage.json
+.coverage_*
+
+# Deployment files (keep deployment artifacts)
+deployments/localhost/
+deployments/hardhat/
+
+# Gas reports
+gas-report.txt
+.gas-snapshot
+
+# ===============================
+# 📊 Data & Temporary Files
+# ===============================
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# CSV and data files
+*.csv
+data/
+uploads/
+
+# ===============================
+# 🚀 Deployment & CI/CD
+# ===============================
+
+# Vercel
+.vercel
+
+# Railway
+.railway/
+
+# Netlify
+.netlify/
 
 # Docker
 .dockerignore
+Dockerfile.dev
 docker-compose.override.yml
+
+# AWS
+.aws/
 
 # Terraform
 *.tfstate
@@ -273,189 +320,269 @@ docker-compose.override.yml
 .terraform/
 .terraform.lock.hcl
 
-# Kubernetes
-*.kubeconfig
+# ===============================
+# 📈 Analytics & Monitoring
+# ===============================
 
-# Cloud deployment configs
-.vercel
-.netlify
+# Sentry
+.sentryclirc
 
-# ==========================================
-# MONITORING & ANALYTICS
-# ==========================================
+# Bundle analysis
+bundle-analyzer-report.html
+.bundle-analyzer/
 
 # Performance monitoring
-.trace
-.profile
+lighthouse-report.html
+.lighthouse/
 
-# Analytics
-analytics/
-metrics/
+# ===============================
+# 🔍 Linting & Formatting
+# ===============================
 
-# ==========================================
-# MISCELLANEOUS
-# ==========================================
-
-# Runtime directories
-.next
-.nuxt
-.vuepress/dist
-
-# Storybook build outputs
-storybook-static
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
+# ESLint cache
 .eslintcache
 
-# Optional stylelint cache
+# Prettier
+.prettierignore
+
+# Stylelint
 .stylelintcache
 
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
+# ===============================
+# 📚 Documentation
+# ===============================
 
-# Optional REPL history
-.node_repl_history
+# Generated docs
+docs/build/
+docs/dist/
+*.pdf
 
-# Output of 'npm pack'
-*.tgz
+# Temporary markdown
+*.tmp.md
 
-# Yarn Integrity file
-.yarn-integrity
+# ===============================
+# 🎯 Project Specific
+# ===============================
 
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
+# YieldAgentX specific temporary files
+**/test-*.js
+**/debug-*.js
+**/temp-*.js
+**/*temp*
+**/*debug*
 
-# SvelteKit build / generate output
-.svelte-kit
+# Strategy cache files
+**/cache/*.json
+!**/cache/.gitkeep
 
-# ==========================================
-# ROOT LEVEL PROTECTION (CRITICAL!)
-# ==========================================
-
-# Allow essential root files
+# Auto-generated summary files
+*SUMMARY*.md
+*STATUS*.md
+*REPORT*.md
+*FIX*.md
+CLEANUP*.md
+PROJECT_STATUS*.md
 !README.md
-!.gitignore
-!cleanup.sh
-!chainlink-hackathon.code-workspace
-!.vscode/settings.json
+!DEPLOYMENT.md
 
-# Prevent duplicate config files in root directory
-/package.json
-/package-lock.json
-/yarn.lock
-/pnpm-lock.yaml
-/.env
-/.env.*
-/tsconfig.json
-/tsconfig.*.json
-/hardhat.config.*
-/next.config.*
-/tailwind.config.*
-/postcss.config.*
-/babel.config.*
-/jest.config.*
-/webpack.config.*
-/rollup.config.*
-/vite.config.*
-/.eslintrc.*
-/.prettierrc.*
-/.babelrc.*
-/nodemon.json
+# Shell scripts (except essential ones)
+*.sh
+!install.sh
+!deploy.sh
 
-# Prevent build artifacts in root
-/dist/
-/build/
-/out/
-/lib/
-/.next/
-/coverage/
-/artifacts/
-/cache/
-/typechain-types/
-/*.tsbuildinfo
+# Lock files for specific tools
+*.lock
 
-# Prevent logs in root
-/*.log
-/npm-debug.log*
-/yarn-debug.log*
-/yarn-error.log*
+# ===============================
+# 📝 Comments & Notes
+# ===============================
 
-# ==========================================
-# PREVENT EMPTY/GARBAGE FILES
-# ==========================================
-# Empty JavaScript files
-*.js.empty
-*-empty.js
-*_empty.js
+# Personal notes
+NOTES.md
+TODO.md
+SCRATCH.md
+notes/
+scratch/
 
-# Temporary/test files
-*-temp.js
-*_temp.js
-*.tmp.js
-test-*.js.bak
-*-backup.js
-*_backup.js
+# Meeting notes
+meeting-*.md
+standup-*.md
 
-# Empty directories and files
-**/.DS_Store_empty
-**/Thumbs.db_empty
+# ===============================
+# 🔐 Security Files
+# ===============================
 
-# Status files that shouldn't be committed
-*_STATUS.md
-*_COMPLETE.md
-*_FIXED.md
-*_PROGRESS.md
-TEMP_*.md
-BACKUP_*.md
+# API keys and tokens
+*.token
+*.secret
+api-keys.json
+secrets/
 
-# Duplicate scripts
-*-duplicate.js
-*_duplicate.js
-*-copy.js
-*_copy.js
-*-old.js
-*_old.js
+# SSL certificates
+*.crt
+*.csr
+*.p12
+*.pfx
 
-# ==========================================
-# DOCUMENTATION CLEANUP FOR HACKATHON
-# ==========================================
-# Keep only main README.md, ignore all other docs
-**/README.md
+# GPG keys
+*.gpg
+*.asc
+
+# ===============================
+# 🎨 Media & Assets
+# ===============================
+
+# Large media files
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# High-res images (keep optimized ones)
+*-hires.*
+*-original.*
+*.psd
+*.ai
+*.sketch
+
+# ===============================
+# 🧪 Testing Artifacts
+# ===============================
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# ===============================
+# 💾 Backup & Recovery
+# ===============================
+
+# Backup directories
+backup/
+backups/
+*.backup/
+
+# Database dumps
+*.sql
+*.dump
+
+# ===============================
+# 🌍 Internationalization
+# ===============================
+
+# Translation files (keep source)
+*.pot
+*.mo
+
+# ===============================
+# 📊 Metrics & Analytics
+# ===============================
+
+# Performance data
+*.perf
+performance/
+metrics/
+
+# A/B testing data
+experiments/
+variants/
+
+# ===============================
+# 🔄 Version Control
+# ===============================
+
+# Git files
+.git/
+.gitattributes
+
+# SVN
+.svn/
+
+# Mercurial
+.hg/
+
+# Bazaar
+.bzr/
+
+# ===============================
+# 📱 Mobile Specific
+# ===============================
+
+# Capacitor
+capacitor.config.json
+capacitor.config.ts
+
+# Cordova
+platforms/
+plugins/
+www/
+
+# ===============================
+# 🎯 Final Exclusions
+# ===============================
+
+# Any other temporary files
+*tmp*
+*temp*
+*.tmp
+*.temp
+
+# System files
+System Volume Information/
+$RECYCLE.BIN/
+
+# Thumbnails
+.thumbnails/
+
+# =================================
+# ✅ Files to ALWAYS include
+# =================================
+# The following files should never be ignored:
+
+# README files
 !README.md
+!*/README.md
 
-# Specific README files to ignore
-ai/README.md
-backend/README.md
-frontend/README.md
-docs/README.md
-HACKATHON/HACKATHON_SUBMISSION_COMPLETE.md
+# License files
+!LICENSE
+!LICENSE.md
+!LICENSE.txt
 
-docs/
-scripts/
-AI_*.md
-ALL_*.md
-COMPLETE_*.md
-DEMO.md
-ENHANCED_*.md
-FINAL_*.md
-FIXES_*.md
-INTEGRATION_*.md
-ISSUES_*.md
-MOCK_*.md
-MULTI_*.md
-PORTFOLIO_*.md
-PRICE_*.md
-REACT_*.md
-REAL_*.md
-SUBMISSION-*.md
-DEVFOLIO_SUBMISSION.md
-HACKATHON_BRANDING.md
+# Environment examples
+!.env.example
+!*/.env.example
 
-# End of file
+# Essential config files
+!next.config.js
+!hardhat.config.js
+!tsconfig.json
+!package.json
+
+# GitHub workflows
+!.github/
+
+# Documentation
+!docs/
+!DEPLOYMENT.md
+HACKATHON_SUBMISSION.md
+
+# =================================
+# 📝 Additional Notes
+# =================================
+
+# This gitignore is designed for the YieldAgentX project
+# It covers Next.js frontend, Node.js AI backend, and Hardhat smart contracts
+# 
+# Remember to:
+# 1. Never commit private keys or mnemonics
+# 2. Keep environment examples updated
+# 3. Review and update this file as project evolves
+# 4. Use git-secrets or similar tools for additional protection

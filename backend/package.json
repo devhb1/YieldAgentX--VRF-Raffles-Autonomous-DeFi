@@ -1,22 +1,20 @@
 {
-  "name": "defi-multi-agent-yield-optimizer-raffle-backend",
+  "name": "defi-yield-optimizer-backend",
   "version": "1.0.0",
-  "description": "DeFi Multi-Agent: Yield Optimizer with Raffle - Smart contracts and blockchain infrastructure",
+  "description": "DeFi Yield Optimizer - Smart contracts and blockchain infrastructure",
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
-    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
-    "deploy:fuji": "hardhat run scripts/deploy.js --network avalancheFuji",
-    "deploy:comprehensive": "hardhat run scripts/deploy-comprehensive.js --network sepolia",
-    "deploy:enhanced": "hardhat run scripts/deploy-enhanced.js --network sepolia",
-    "deploy:enhanced:fuji": "hardhat run scripts/deploy-enhanced.js --network avalancheFuji",
+    "deploy:main": "hardhat run scripts/deploy-main-contracts.js --network sepolia",
+    "deploy:sepolia": "hardhat run scripts/deploy-main-contracts.js --network sepolia",
+    "deploy:fuji": "hardhat run scripts/deploy-main-contracts.js --network fuji",
+    "deploy:raffle": "hardhat run scripts/deploy-enhanced-raffle.js --network sepolia",
+    "compile-and-copy": "node scripts/compile-contracts.js",
     "verify:sepolia": "hardhat verify --network sepolia",
+    "verify:fuji": "hardhat verify --network fuji",
     "node": "hardhat node",
-    "clean": "hardhat clean",
-    "coverage": "hardhat coverage",
-    "size": "hardhat size-contracts"
+    "clean": "hardhat clean"
   },
   "keywords": [
     "blockchain",

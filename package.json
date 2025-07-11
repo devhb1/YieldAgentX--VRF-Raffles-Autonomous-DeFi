@@ -1,0 +1,102 @@
+{
+  "name": "yieldagentx",
+  "version": "1.0.0",
+  "description": "🚀 AI-Powered DeFi Automation Platform with Chainlink Integration - Chainlink Block Magic Hackathon 2025 Submission",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../ai && npm install",
+    "dev": "npm run dev:frontend",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:ai": "cd ai && npm run dev",
+    "dev:backend": "cd backend && npm run node",
+    "dev:all": "concurrently \"npm run dev:ai\" \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "build": "npm run build:frontend && npm run build:ai && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:ai": "cd ai && npm run build",
+    "build:backend": "cd backend && npm run compile",
+    "start": "npm run start:frontend",
+    "start:frontend": "cd frontend && npm run start",
+    "start:ai": "cd ai && npm run start",
+    "test": "npm run test:frontend && npm run test:ai && npm run test:backend",
+    "test:frontend": "cd frontend && npm run test",
+    "test:ai": "cd ai && npm run test",
+    "test:backend": "cd backend && npm run test",
+    "deploy": "npm run deploy:contracts && npm run deploy:frontend && npm run deploy:ai",
+    "deploy:contracts": "cd backend && npm run deploy:main",
+    "deploy:contracts:sepolia": "cd backend && npm run deploy:sepolia",
+    "deploy:contracts:fuji": "cd backend && npm run deploy:fuji",
+    "deploy:frontend": "cd frontend && npm run build && echo 'Deploy frontend to Vercel'",
+    "deploy:ai": "cd ai && npm run build && echo 'Deploy AI service to Vercel'",
+    "clean": "npm run clean:frontend && npm run clean:ai && npm run clean:backend",
+    "clean:frontend": "cd frontend && rm -rf .next node_modules",
+    "clean:ai": "cd ai && rm -rf dist node_modules",
+    "clean:backend": "cd backend && rm -rf artifacts cache node_modules",
+    "lint": "npm run lint:frontend && npm run lint:ai",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:ai": "cd ai && npm run lint",
+    "format": "npm run format:frontend && npm run format:ai",
+    "format:frontend": "cd frontend && npm run format",
+    "format:ai": "cd ai && npm run format",
+    "setup": "npm run install:all && npm run build",
+    "postinstall": "echo 'YieldAgentX setup complete! Run npm run dev:all to start all services.'"
+  },
+  "workspaces": [
+    "frontend",
+    "ai", 
+    "backend"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "defi",
+    "ai",
+    "blockchain",
+    "chainlink",
+    "chainlink-hackathon",
+    "block-magic-2025",
+    "ethereum",
+    "yield-farming",
+    "automation",
+    "vrf",
+    "smart-contracts",
+    "nextjs",
+    "typescript",
+    "web3",
+    "dapp",
+    "oracle",
+    "price-feeds",
+    "automated-trading",
+    "raffle",
+    "verifiable-random"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/YieldAgentX.git"
+  },
+  "author": "YieldAgentX Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-username/YieldAgentX/issues"
+  },
+  "homepage": "https://github.com/your-username/YieldAgentX#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  " YieldAgentx": {
+    "name": "YieldAgentX",
+    "category": "DeFi + AI",
+    "submission_date": "2025-01-11",
+    "chainlink_services": [
+      "VRF v2.5",
+      "Automation", 
+      "Price Feeds"
+    ],
+    "deployed_networks": [
+      "Ethereum Sepolia",
+      "Avalanche Fuji"
+    ]
+    
+  }
+}

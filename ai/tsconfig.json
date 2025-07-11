@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020", "ES2015"],
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "downlevelIteration": true
+  },
+  "include": [
+    "**/*.ts",
+    "server.ts",
+    "index.ts",
+    "activate-agents.ts",
+    "services/**/*.ts",
+    "agents/**/*.ts",
+    "models/**/*.ts",
+    "config/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "index_old.ts",
+    "server-*.js",
+    "test-*.js",
+    "verify-*.js",
+    "services/AIService.ts",
+    "services/GeminiAIService.ts",
+    "services/SmartQuotaManager.ts"
+  ]
+}
