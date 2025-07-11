@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAccount } from 'wagmi'
 
-const AI_BACKEND_URL = process.env.NEXT_PUBLIC_AI_BACKEND_URL || 'http://localhost:3001'
+const AI_BACKEND_URL = process.env.NEXT_PUBLIC_AI_SERVICE_URL || 'http://localhost:3001'
 
 interface AIAnalysis {
     riskLevel: 'low' | 'moderate' | 'high'
